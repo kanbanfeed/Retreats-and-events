@@ -12,44 +12,10 @@ import EventCard from '@/components/EventCard'
 import BubblesBackground from '@/components/BubblesBackground'
 import { useState } from 'react'
 import EventDetailsModal from '@/components/EventDetailsModal'
-
-interface Event {
-  id: number
-  name: string
-  description: string
-  location: string
-  date: string
-  image: string
-}
-
-const highlightedEvents: Event[] = [
-  {
-    id: 1,
-    name: 'Goa Wellness Reset',
-    description: 'A 5-day transformative wellness retreat combining yoga, meditation, and mindfulness practices in the serene beaches of Goa.',
-    location: 'Goa, India',
-    date: '15-20 March 2025',
-    image: '/placeholder-goa.jpg',
-  },
-  {
-    id: 3,
-    name: 'Crowbar Founders Circle Weekend',
-    description: 'An exclusive weekend gathering for Crowbar founders to share experiences, challenges, and celebrate wins together.',
-    location: 'Mumbai, India',
-    date: '5-7 April 2025',
-    image: '/placeholder-mumbai.jpg',
-  },
-  {
-    id: 5,
-    name: 'Tech Innovation Bootcamp',
-    description: 'A 3-day intensive bootcamp on emerging technologies, product innovation, and startup scaling strategies.',
-    location: 'Pune, India',
-    date: '25-27 April 2025',
-    image: '/placeholder-pune.jpg',
-  },
-]
+import { getFeaturedEvents, Event } from '@/data/events'
 
 export default function Home() {
+  const highlightedEvents = getFeaturedEvents();
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -66,10 +32,11 @@ export default function Home() {
   return (
     <main className="min-h-screen relative overflow-hidden bg-slate-50">
       
-      {/* Navigation */}
+      {/* Navigation - LIGHT MODE */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
             <Logo />
+            
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -77,22 +44,22 @@ export default function Home() {
               className="hidden md:flex items-center space-x-8"
             >
               <Link href="/upcoming-retreats" className="text-slate-700 hover:text-blue-600 transition-colors font-bold text-sm tracking-wide">
-                  Upcoming Retreats
+                  Retreats
               </Link>
-              <a href="#benefits" className="text-slate-700 hover:text-blue-600 transition-colors font-bold text-sm tracking-wide">
-                  Benefits
-              </a>
-              <a href="#testimonials" className="text-slate-700 hover:text-blue-600 transition-colors font-bold text-sm tracking-wide">
-                  Testimonials
-              </a>
+              <Link href="/experience" className="text-slate-700 hover:text-blue-600 transition-colors font-bold text-sm tracking-wide">
+                  Experience
+              </Link>
+              <Link href="/host" className="text-slate-700 hover:text-blue-600 transition-colors font-bold text-sm tracking-wide">
+                  Partner / Host
+              </Link>
               <LoginButton />
             </motion.div>
             <MobileMenu />
         </div>
       </nav>
 
-      {/* 1. HERO SECTION (Light Gray) */}
-      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden pt-20 bg-slate-50">
+      {/* Hero Section */}
+      <section className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
         <BubblesBackground />
 
         <div className="relative z-10 container mx-auto px-4 text-center">
@@ -136,18 +103,18 @@ export default function Home() {
             >
                 Explore Events
             </Link>
-            <a
-                href="#benefits"
+            <Link
+                href="/experience"
                 className="px-10 py-4 rounded-full bg-white text-slate-800 font-bold text-lg border border-slate-200 hover:border-blue-200 hover:bg-blue-50 transition-all hover:scale-105"
             >
-                Learn More
-            </a>
+                View Experience
+            </Link>
             </motion.div>
           </motion.div>
         </div>
       </section>
 
-      {/* 2. FEATURED EVENTS (Clean White) */}
+      {/* Featured Events Section */}
       <section className="relative z-10 py-20 md:py-32 bg-white border-y border-slate-100">
         <div className="container mx-auto px-4">
           <motion.div
@@ -182,6 +149,7 @@ export default function Home() {
                   location={event.location}
                   date={event.date}
                   image={event.image}
+                  isElite={event.isElite}
                   onViewDetails={() => handleViewDetails(event)}
                 />
               </motion.div>
@@ -213,22 +181,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. BENEFITS (Dark Midnight Blue - High Contrast) */}
+      {/* Why Attend Section */}
       <div id="benefits" className="relative z-10 bg-slate-900 py-12">
-        {/* Background glow for visual interest */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl bg-blue-500/10 blur-[100px] pointer-events-none" />
         <WhyAttend />
       </div>
 
-      {/* 4. TESTIMONIALS (Soft Blue/Lavender Gradient) */}
+      {/* Testimonials Slider */}
       <div id="testimonials" className="relative z-10 bg-gradient-to-b from-indigo-50 to-white">
         <TestimonialsSlider />
       </div>
 
-      {/* Footer */}
       <Footer />
 
-      {/* Event Details Modal */}
       <EventDetailsModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
