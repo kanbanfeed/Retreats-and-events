@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
+// Import the Provider
+import { AuthProvider } from '@/components/AuthProvider'
 
 export const metadata: Metadata = {
   title: 'Retreats & Events - Lifetime Membership for Exclusive Experiences',
@@ -13,8 +15,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {/* Wrap children in AuthProvider */}
+        <AuthProvider>
+            {children}
+        </AuthProvider>
+      </body>
     </html>
   )
 }
-
