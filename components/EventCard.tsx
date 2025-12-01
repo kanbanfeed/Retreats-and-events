@@ -26,7 +26,6 @@ export default function EventCard({
   const categoryWord = name.split(' ')[0]
 
   // --- DYNAMIC COUNTDOWN LOGIC ---
-  // Setting a fake target date (4 days from now) for demo purposes so it always "ticks"
   const [timeLeft, setTimeLeft] = useState({ days: 4, hours: 12, minutes: 45, seconds: 12 })
 
   useEffect(() => {
@@ -42,7 +41,6 @@ export default function EventCard({
     return () => clearInterval(timer)
   }, [])
 
-  // Format numbers to always have 2 digits (e.g., 09)
   const f = (n: number) => n.toString().padStart(2, '0')
 
   return (
@@ -51,7 +49,7 @@ export default function EventCard({
       whileHover={{ y: -8 }}
       onClick={onViewDetails}
     >
-      {/* --- BIGGER ELITE BADGE --- */}
+      {/* --- ELITE BADGE (Top Right) --- */}
       {isElite && (
         <div className="absolute top-0 right-0 z-40">
           <div className="bg-slate-900 text-amber-400 text-xs font-black uppercase tracking-widest py-3 px-6 rounded-bl-3xl shadow-xl flex items-center gap-2 border-b-2 border-l-2 border-white">
@@ -69,38 +67,45 @@ export default function EventCard({
         <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 via-indigo-50 to-white opacity-90 transition-transform duration-700 group-hover:scale-105" />
         
         {/* Decorative Circle */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
         
-        {/* Watermark */}
-        <div className="absolute -top-6 -right-6 text-9xl font-black text-slate-900/5 select-none pointer-events-none uppercase tracking-tighter">
+        {/* Watermark (Faded) */}
+        <div className="absolute -top-6 -right-6 text-9xl font-black text-slate-900/[0.03] select-none pointer-events-none uppercase tracking-tighter leading-none">
           {categoryWord}
         </div>
 
-        {/* Date Tag */}
+        {/* Date Tag (Top Left) */}
         <div className="absolute top-6 left-6 z-20">
           <span className="inline-flex items-center justify-center px-4 py-2 bg-white/90 backdrop-blur-md rounded-xl text-xs font-bold text-slate-900 shadow-md border border-white/60">
             📅 {date}
           </span>
         </div>
 
-        {/* --- DYNAMIC COUNTDOWN (High Visibility) --- */}
+        {/* --- DYNAMIC COUNTDOWN (Bottom Right - High Contrast) --- */}
         <div className="absolute bottom-6 right-6 z-30">
-          <div className="flex items-center gap-3 bg-white border border-slate-100 rounded-xl px-4 py-2 shadow-lg hover:scale-105 transition-transform">
-            <span className="relative flex h-2 w-2">
+          <div className="flex items-center gap-2 bg-slate-900/95 backdrop-blur-md border border-white/10 rounded-xl px-4 py-2 shadow-xl hover:scale-105 transition-transform">
+            
+            {/* Pulsing Dot */}
+            <span className="relative flex h-2 w-2 mr-1">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
             </span>
-            <div className="flex flex-col items-start leading-none">
-                <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Time Left</span>
-                <span className="text-xs font-mono font-bold text-slate-900 tabular-nums tracking-wide">
-                {f(timeLeft.days)}d : {f(timeLeft.hours)}h : {f(timeLeft.minutes)}m : {f(timeLeft.seconds)}s
-                </span>
+
+            {/* Timer Digits */}
+            <div className="flex items-baseline gap-1 text-xs font-mono font-bold text-white tracking-widest leading-none">
+                <span>{f(timeLeft.days)}<span className="text-slate-500 text-[10px] ml-px">d</span></span>
+                <span className="text-slate-600">:</span>
+                <span>{f(timeLeft.hours)}<span className="text-slate-500 text-[10px] ml-px">h</span></span>
+                <span className="text-slate-600">:</span>
+                <span>{f(timeLeft.minutes)}<span className="text-slate-500 text-[10px] ml-px">m</span></span>
+                <span className="text-slate-600">:</span>
+                <span className="text-amber-400">{f(timeLeft.seconds)}<span className="text-amber-600 text-[10px] ml-px">s</span></span>
             </div>
           </div>
         </div>
 
-        {/* Title Section */}
-        <div className="relative z-10 pr-2 max-w-[70%]">
+        {/* Title Section (Restricted width to avoid hitting timer) */}
+        <div className="relative z-10 pr-2 max-w-[55%]">
            <div className="flex items-center gap-2 text-slate-500 text-xs font-bold uppercase tracking-widest mb-3">
              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
              {location}
