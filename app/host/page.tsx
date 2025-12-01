@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Link from 'next/link'
+import Link from 'next/link' // Import Link
 import Logo from '@/components/Logo'
 import LoginButton from '@/components/LoginButton'
 import MobileMenu from '@/components/MobileMenu'
@@ -57,13 +57,22 @@ export default function Host() {
                     </div>
                 </div>
 
-                <div className="flex gap-4">
-                    <button className="px-8 py-4 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">
+                <div className="flex flex-col sm:flex-row gap-4">
+                    {/* UPDATED: Link to Coming Soon */}
+                    <Link 
+                        href="/coming-soon"
+                        className="px-8 py-4 bg-slate-900 text-center text-white font-bold rounded-xl hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl"
+                    >
                         Apply to Host
-                    </button>
-                    <button className="px-8 py-4 bg-white text-slate-900 border border-slate-200 font-bold rounded-xl hover:bg-slate-100 transition-all">
+                    </Link>
+                    
+                    {/* UPDATED: Link to Coming Soon */}
+                    <Link 
+                        href="/coming-soon"
+                        className="px-8 py-4 bg-white text-center text-slate-500 border border-slate-200 font-bold rounded-xl hover:bg-slate-100 transition-all"
+                    >
                         View Case Studies
-                    </button>
+                    </Link>
                 </div>
             </motion.div>
         </div>
